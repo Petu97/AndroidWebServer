@@ -7,7 +7,7 @@ app.use(express.json());
 
 var listJson = require("./list.json");
 
-app.listen("8888", "localhost", () => {
+app.listen(process.env.PORT || 8888, "localhost", () => {
   console.log("Listening on port 8888");
 });
 
