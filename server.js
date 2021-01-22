@@ -18,7 +18,7 @@ app.get("/", (req, res) => {
 app.post("/", (req, res) => {
   fs.readFile("list.json", "utf8", (err, result) => {
     list = JSON.parse(result);
-    list.items.push({ item: "new item" });
+    list.items.push({ item: req.body.item });
     fs.writeFile("list.json", JSON.stringify(list, null, 2), "utf-8", (err) => {
       if (err) throw err;
       else res.send(listJson);
