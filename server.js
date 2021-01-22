@@ -21,7 +21,7 @@ app.post("/", (req, res) => {
     list.items.push({ item: req.body.item });
     fs.writeFile("list.json", JSON.stringify(list, null, 2), "utf-8", (err) => {
       if (err) throw err;
-      else res.send(listJson);
+      else res.send("received item: " + req.body.item);
     });
   });
 });
