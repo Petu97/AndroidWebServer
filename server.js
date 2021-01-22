@@ -21,13 +21,16 @@ app.post("/", (req, res) => {
     list = JSON.parse(result);
     list.items.push({ item: req.body.item });
     console.log(
-      "new json list: " + list + " And old json list: " + listJson.items
+      "new json list: " +
+        JSON.stringify(list) +
+        " And old json list: " +
+        JSON.stringify(listJson.items)
     );
     fs.writeFile("list.json", JSON.stringify(list, null, 2), "utf-8", (err) => {
       if (err) throw err;
       else {
         res.send(listJson);
-        console.log("Saved json list is: " + listJson.items);
+        console.log("Saved json list is: " + JSON.stringify(listJson.items));
       }
     });
   });
