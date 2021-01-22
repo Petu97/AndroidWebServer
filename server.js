@@ -5,14 +5,16 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-var listJson = require("./list.json");
+//var listJson = require("./list.json");
 
 app.listen(process.env.PORT || 8888, () => {
   console.log("Listening on port 8888");
 });
 
 app.get("/", (req, res) => {
-  res.send(listJson);
+  fs.readFile("list.json", "utf8", (err, result) => {
+    res.send(result);
+  });
 });
 
 app.post("/", (req, res) => {
@@ -20,17 +22,10 @@ app.post("/", (req, res) => {
     console.log(req.body.item);
     list = JSON.parse(result);
     list.items.push({ item: req.body.item });
-    console.log(
-      "new json list: " +
-        JSON.stringify(list) +
-        " And old json list: " +
-        JSON.stringify(listJson.items)
-    );
     fs.writeFile("list.json", JSON.stringify(list, null, 2), "utf-8", (err) => {
       if (err) throw err;
       else {
-        res.send(listJson);
-        console.log("Saved json list is: " + JSON.stringify(listJson.items));
+        res.send(list);
       }
     });
   });
@@ -44,7 +39,7 @@ app.delete("/", (req, res) => {
 
     fs.writeFile("list.json", JSON.stringify(list, null, 2), "utf-8", (err) => {
       if (err) throw err;
-      else res.send(listJson);
+      else res.send(list);
     });
   });
 });
